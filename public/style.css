@@ -1,0 +1,44 @@
+body {
+  font-family: 'Segoe UI', sans-serif;
+  margin:0; padding:0;
+  color:#fff;
+  text-align:center;
+  min-height:100vh;
+  display:flex;
+  flex-direction:column;
+  gap:20px;
+  position:relative;
+  background:#000;
+}
+
+.header-img { max-width:80%; height:auto; margin:20px auto; display:block; }
+
+.player-container {
+  display:flex;
+  justify-content:center;
+  gap:20px;
+  flex-wrap:wrap;
+  z-index:1;
+  position:relative;
+}
+
+.player {
+  background: rgba(0,0,0,0.5);
+  border:2px solid #fff;
+  border-radius:15px;
+  width:250px;
+  padding:20px;
+}
+
+.life { font-size:3rem; margin:10px 0; }
+.mini-tracker { font-size:1.5rem; margin:5px 0; }
+.buttons { display:flex; justify-content:center; gap:5px; flex-wrap:wrap; margin-bottom:10px; }
+button { font-size:1rem; padding:5px 10px; border-radius:8px; border:none; cursor:pointer; font-weight:bold; background: rgba(255,255,255,0.2); color:#fff; transition:all 0.2s; }
+button:hover { background: rgba(255,255,255,0.4); }
+button.reset { width:100%; margin-top:10px; background-color: rgba(255,255,0,0.4); color:#000; }
+.flash { animation: flashAnim 0.3s ease-in-out; }
+@keyframes flashAnim { 0%{transform:scale(1.2);}50%{transform:scale(1.1);}100%{transform:scale(1);} }
+
+#bg-container { position:fixed; top:0; left:0; width:100vw; height:100vh; z-index:-1; overflow:hidden; }
+.bg-media { position:absolute; top:50%; left:50%; width:auto; height:auto; min-width:100%; min-height:100%; transform:translate(-50%,-50%); object-fit:cover; filter: grayscale(30%) blur(4px) brightness(60%); opacity:0; transition: opacity 2s ease-in-out; }
+.bg-media:first-child { opacity:1; }

@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Buddyfight Life Counter</title>
+<link rel="stylesheet" href="style.css">
+<script src="/socket.io/socket.io.js"></script>
+</head>
+<body>
+
+<!-- Header PNG -->
+<div class="header">
+  <img src="images/Shin_Logo.png" alt="Buddyfight Life Counter" class="header-img">
+</div>
+
+<!-- Player container -->
+<div class="player-container">
+  <!-- Player 1 -->
+  <div class="player" id="player1">
+    <h2>Player 1</h2>
+    <div class="life" id="life1">10</div>
+
+    <div class="mini-tracker">Action Points: <span id="ap1">10</span></div>
+    <div class="buttons">
+      <button id="ap1Plus">+1 AP</button>
+      <button id="ap1Minus">-1 AP</button>
+      <button onclick="resetAP(1)">Reset AP</button>
+    </div>
+
+    <div class="mini-tracker">Power: <span id="power1">0</span></div>
+    <div class="buttons">
+      <button id="power1Plus">+1 Power</button>
+      <button id="power1Minus">-1 Power</button>
+    </div>
+
+    <div class="buttons">
+      <button id="life1Plus">+1 Life</button>
+      <button id="life1Minus">-1 Life</button>
+    </div>
+  </div>
+
+  <!-- Player 2 -->
+  <div class="player" id="player2">
+    <h2>Player 2</h2>
+    <div class="life" id="life2">10</div>
+
+    <div class="mini-tracker">Action Points: <span id="ap2">10</span></div>
+    <div class="buttons">
+      <button id="ap2Plus">+1 AP</button>
+      <button id="ap2Minus">-1 AP</button>
+      <button onclick="resetAP(2)">Reset AP</button>
+    </div>
+
+    <div class="mini-tracker">Power: <span id="power2">0</span></div>
+    <div class="buttons">
+      <button id="power2Plus">+1 Power</button>
+      <button id="power2Minus">-1 Power</button>
+    </div>
+
+    <div class="buttons">
+      <button id="life2Plus">+1 Life</button>
+      <button id="life2Minus">-1 Life</button>
+    </div>
+  </div>
+</div>
+
+<button class="reset" onclick="resetAll()">RESET ALL</button>
+
+<!-- Background media container -->
+<div id="bg-container">
+  <img src="images/bdf01.png" class="bg-media" style="opacity:1">
+  <img src="images/bdf02.jpg" class="bg-media">
+  <img src="images/bdf03.jpg" class="bg-media">
+  <img src="images/bdf04.gif" class="bg-media">
+  <!--<video class="bg-media" autoplay muted loop>
+    <source src="images/bg3.mp4" type="video/mp4">
+  </video> -->
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
