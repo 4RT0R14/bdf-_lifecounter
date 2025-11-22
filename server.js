@@ -41,5 +41,9 @@ io.on('connection', (socket) => {
     console.log('User disconnected');
   });
 });
+// Start rolling animation
+socket.on('startRolling', (roomCode) => {
+  io.to(roomCode).emit('startRolling');
+});
 
 http.listen(PORT, () => console.log(`Server running on port ${PORT}`));

@@ -74,17 +74,22 @@ const startMessage = document.getElementById('startMessage');
 const diceAnim = document.getElementById('diceAnim');
 
 randomStartBtn.addEventListener('click', () => {
-  let flashCount = 0;
-  const maxFlashes = 6; // total flashes
-  let currentFlash = 1;
+  // Tell server to start rolling in this room
+  socket.emit('startRolling', roomCode);
+});
 
-  // Show dice GIF
+// Listen for rolling event from server
+socket.on('startRolling', () => {
   diceAnim.style.display = 'inline-block';
   startMessage.textContent = 'Rolling... 🎲';
 
+  let flashCount = 0;
+  const maxFlashes = 6;
+  let currentFlash = 1;
+
   const flashInterval = setInterval(() => {
     highlightFirstPlayer(currentFlash);
-    currentFlash = currentFlash === 1 ? 2 : 1; // alternate
+    currentFlash = currentFlash === 1 ? 2 : 1;
     flashCount++;
   }, 200);
 
@@ -94,17 +99,15 @@ randomStartBtn.addEventListener('click', () => {
     // Pick actual random player
     const firstPlayer = Math.random() < 0.5 ? 1 : 2;
 
-    // Hide dice GIF
     diceAnim.style.display = 'none';
-
-    // Emit to server
     socket.emit('randomStart', { roomCode, firstPlayer });
   }, maxFlashes * 200);
 });
 
-// Receive broadcast
+// Receive final random start
 socket.on('randomStart', ({ firstPlayer }) => {
   startMessage.textContent = `Player ${firstPlayer} starts first! 🎲`;
   highlightFirstPlayer(firstPlayer);
 });
+
 
