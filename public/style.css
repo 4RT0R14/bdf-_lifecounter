@@ -42,3 +42,23 @@ button.reset { width:100%; margin-top:10px; background-color: rgba(255,255,0,0.4
 #bg-container { position:fixed; top:0; left:0; width:100vw; height:100vh; z-index:-1; overflow:hidden; }
 .bg-media { position:absolute; top:50%; left:50%; width:auto; height:auto; min-width:100%; min-height:100%; transform:translate(-50%,-50%); object-fit:cover; filter: grayscale(30%) blur(4px) brightness(60%); opacity:0; transition: opacity 2s ease-in-out; }
 .bg-media:first-child { opacity:1; }
+.random-start {
+    position: fixed;
+    top:20px;
+    right:15px;
+  text-align: center;
+  
+}
+
+.random-start button {
+  padding: 5px 10px;
+  font-size: 1.2em;
+  cursor: pointer;
+}
+
+#startMessage {
+  margin-top: 10px;
+  font-size: 1.2em;
+  font-weight: bold;
+  color: #ffd700; /* gold */
+}

@@ -67,3 +67,29 @@ setInterval(()=>{
   medias[nextIndex].style.opacity=1;
   lastIndex=nextIndex;
 },10000);
+const randomStartBtn = document.getElementById('randomStartBtn');
+const startMessage = document.getElementById('startMessage');
+
+randomStartBtn.addEventListener('click', () => {
+  // Randomly pick 1 or 2
+  const firstPlayer = Math.random() < 0.5 ? 1 : 2;
+
+  // Display message
+  startMessage.textContent = `Player ${firstPlayer} starts first! 🎲`;
+
+  // Optional: highlight the player
+  highlightFirstPlayer(firstPlayer);
+});
+
+function highlightFirstPlayer(player) {
+  const p1 = document.getElementById('player1');
+  const p2 = document.getElementById('player2');
+
+  if (player === 1) {
+    p1.style.border = "3px solid gold";
+    p2.style.border = "none";
+  } else {
+    p2.style.border = "3px solid gold";
+    p1.style.border = "none";
+  }
+}
