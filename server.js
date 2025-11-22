@@ -12,6 +12,7 @@ const rooms = {}; // store game states per room
 io.on('connection', (socket) => {
   console.log('A user connected');
 
+  // Join a room
   socket.on('joinRoom', (roomCode) => {
     socket.join(roomCode);
 
@@ -19,14 +20,21 @@ io.on('connection', (socket) => {
       rooms[roomCode] = { life1: 10, life2: 10, ap1: 10, ap2: 10, power1: 0, power2: 0 };
     }
 
-    // Send current state to the new player
+    // Send current state to the new player only
     io.to(socket.id).emit('updateState', rooms[roomCode]);
   });
 
+  // State update (life/AP/power)
   socket.on('updateState', ({ roomCode, newState }) => {
     rooms[roomCode] = newState;
     // Broadcast updated state to everyone in room except sender
     socket.to(roomCode).emit('updateState', newState);
+  });
+
+  // Random start player
+  socket.on('randomStart', ({ roomCode, firstPlayer }) => {
+    // Broadcast to all clients in the same room
+    io.to(roomCode).emit('randomStart', { firstPlayer });
   });
 
   socket.on('disconnect', () => {

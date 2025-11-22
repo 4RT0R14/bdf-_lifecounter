@@ -19,11 +19,11 @@ function sendState(){
   socket.emit('updateState', { roomCode, newState:{life1,life2,ap1,ap2,power1,power2} }); 
 }
 
-function changeLife(player,amount){ if(player===1) life1=Math.max(life1+amount,0); else life2=Math.max(life2+amount,0); updateDisplay('life',player); sendState(); }
-function changeAP(player,amount){ if(player===1) ap1=Math.max(ap1+amount,0); else ap2=Math.max(ap2+amount,0); updateDisplay('ap',player); sendState(); }
-function changePower(player,amount){ if(player===1) power1=Math.max(power1+amount,0); else power2=Math.max(power2+amount,0); updateDisplay('power',player); sendState(); }
-function resetAP(player){ if(player===1) ap1=10; else ap2=10; updateDisplay('ap',player); sendState(); }
-function resetAll(){ life1=life2=10; ap1=ap2=10; power1=power2=0; ['life','ap','power'].forEach(t=>[1,2].forEach(p=>updateDisplay(t,p))); sendState(); }
+function changeLife(player,amount){ if(player===1) life1=Math.max(life1+amount,0); else life2=Math.max(life2+amount,0); updateDisplay('life',player); sendState(); removeHighlight(); }
+function changeAP(player,amount){ if(player===1) ap1=Math.max(ap1+amount,0); else ap2=Math.max(ap2+amount,0); updateDisplay('ap',player); sendState(); removeHighlight(); }
+function changePower(player,amount){ if(player===1) power1=Math.max(power1+amount,0); else power2=Math.max(power2+amount,0); updateDisplay('power',player); sendState(); removeHighlight(); }
+function resetAP(player){ if(player===1) ap1=10; else ap2=10; updateDisplay('ap',player); sendState(); removeHighlight(); }
+function resetAll(){ life1=life2=10; ap1=ap2=10; power1=power2=0; ['life','ap','power'].forEach(t=>[1,2].forEach(p=>updateDisplay(t,p))); sendState(); removeHighlight(); }
 
 // Holdable buttons
 function setupHoldableButton(buttonId,action){
@@ -67,29 +67,44 @@ setInterval(()=>{
   medias[nextIndex].style.opacity=1;
   lastIndex=nextIndex;
 },10000);
+
+// ---------- Random Start Player ----------
 const randomStartBtn = document.getElementById('randomStartBtn');
 const startMessage = document.getElementById('startMessage');
+const diceAnim = document.getElementById('diceAnim');
 
 randomStartBtn.addEventListener('click', () => {
-  // Randomly pick 1 or 2
-  const firstPlayer = Math.random() < 0.5 ? 1 : 2;
+  let flashCount = 0;
+  const maxFlashes = 6; // total flashes
+  let currentFlash = 1;
 
-  // Display message
+  // Show dice GIF
+  diceAnim.style.display = 'inline-block';
+  startMessage.textContent = 'Rolling... 🎲';
+
+  const flashInterval = setInterval(() => {
+    highlightFirstPlayer(currentFlash);
+    currentFlash = currentFlash === 1 ? 2 : 1; // alternate
+    flashCount++;
+  }, 200);
+
+  setTimeout(() => {
+    clearInterval(flashInterval);
+
+    // Pick actual random player
+    const firstPlayer = Math.random() < 0.5 ? 1 : 2;
+
+    // Hide dice GIF
+    diceAnim.style.display = 'none';
+
+    // Emit to server
+    socket.emit('randomStart', { roomCode, firstPlayer });
+  }, maxFlashes * 200);
+});
+
+// Receive broadcast
+socket.on('randomStart', ({ firstPlayer }) => {
   startMessage.textContent = `Player ${firstPlayer} starts first! 🎲`;
-
-  // Optional: highlight the player
   highlightFirstPlayer(firstPlayer);
 });
 
-function highlightFirstPlayer(player) {
-  const p1 = document.getElementById('player1');
-  const p2 = document.getElementById('player2');
-
-  if (player === 1) {
-    p1.style.border = "3px solid gold";
-    p2.style.border = "none";
-  } else {
-    p2.style.border = "3px solid gold";
-    p1.style.border = "none";
-  }
-}

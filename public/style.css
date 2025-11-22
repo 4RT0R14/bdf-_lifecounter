@@ -62,3 +62,14 @@ button.reset { width:100%; margin-top:10px; background-color: rgba(255,255,0,0.4
   font-weight: bold;
   color: #ffd700; /* gold */
 }
+#player1, #player2 {
+  transition: border 0.15s ease;
+}
+#diceAnim {
+  vertical-align: middle;
+  transition: transform 0.2s;
+}
+
+#diceAnim:hover {
+  transform: scale(1.2);
+}
