@@ -11,7 +11,7 @@ body {
   background:#000;
 }
 
-.header-img { max-width:80%; height:auto; margin:20px auto; display:block; }
+.header-img { max-width:30%; height:auto; margin:20px auto; display:block; }
 
 .player-container {
   display:flex;
