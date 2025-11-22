@@ -37,13 +37,14 @@ io.on('connection', (socket) => {
     io.to(roomCode).emit('randomStart', { firstPlayer });
   });
 
+  // Start rolling animation (THIS MUST BE INSIDE connection)
+  socket.on('startRolling', (roomCode) => {
+    io.to(roomCode).emit('startRolling');
+  });
+
   socket.on('disconnect', () => {
     console.log('User disconnected');
   });
-});
-// Start rolling animation
-socket.on('startRolling', (roomCode) => {
-  io.to(roomCode).emit('startRolling');
 });
 
 http.listen(PORT, () => console.log(`Server running on port ${PORT}`));
