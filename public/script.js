@@ -58,11 +58,28 @@ function resetAll() {
 function setupHoldableButton(buttonId, action) {
   const btn = document.getElementById(buttonId);
   let interval;
-  btn.addEventListener('mousedown', () => { action(); interval = setInterval(action, 200); });
-  btn.addEventListener('mouseup', () => clearInterval(interval));
-  btn.addEventListener('mouseleave', () => clearInterval(interval));
-  btn.addEventListener('touchstart', (e) => { e.preventDefault(); action(); interval = setInterval(action, 200); }, { passive: false });
-  btn.addEventListener('touchend', () => clearInterval(interval));
+  let timeout;
+
+  const start = (e) => {
+    if (e.cancelable) e.preventDefault(); // Prevent default only if cancelable
+    action();
+    timeout = setTimeout(() => {
+      interval = setInterval(action, 100);
+    }, 500);
+  };
+
+  const stop = () => {
+    clearTimeout(timeout);
+    clearInterval(interval);
+  };
+
+  btn.addEventListener('mousedown', start);
+  btn.addEventListener('mouseup', stop);
+  btn.addEventListener('mouseleave', stop);
+
+  btn.addEventListener('touchstart', start, { passive: false });
+  btn.addEventListener('touchend', stop);
+  btn.addEventListener('touchcancel', stop);
 }
 
 // Assign buttons
